@@ -1,0 +1,3 @@
+Falsk
+Flask-Cors
+mysql-connector-python
