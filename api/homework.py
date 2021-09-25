@@ -7,6 +7,7 @@ from dbConfig import *
 def homework():
     try:
         data = request.json
+        account_id = data["account_id"]
         course_name = data["course_name"]
         room = data["room"]
         date = data["date"]
@@ -17,8 +18,8 @@ def homework():
         conn = connectToDB()
         cursor = conn.cursor()
 
-        sql = """ INSERT INTO homework (course_name, room, date, detail, file) VALUES (%s,%s,%s,%s,%s)""" 
-        cursor.execute(sql,(course_name,room,date,detail,filePdf))
+        sql = """ INSERT INTO homework (account_id, course_name, room, date, detail, file) VALUES (%s,%s,%s,%s,%s,%s)""" 
+        cursor.execute(sql,(account_id,course_name,room,date,detail,filePdf))
         conn.commit()
 
         # data_sql = cursor.fetchall()
