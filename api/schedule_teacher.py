@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from dbConfig import *
+import json
 
 
 @app.route('/schedule_teacher', methods=['POST'])
@@ -19,6 +20,10 @@ def schedule_teacher():
         columns = [column[0] for column in cursor.description]
         result = toJson(data_sql,columns)
         if len(result) > 0:
+            data = result[0]['schedule']
+            json_data = json.dumps(data)
+            json_string = json.loads(json_data) 
+            result[0]['schedule'] = json_string
             result = {"status":"OK","result":result}
         else:
             result = {"status":"ER","errorMessage":"ไม่พบ ข้อมูล"}
