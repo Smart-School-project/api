@@ -7,3 +7,4 @@ from api import calendar
 from api import list_hw
 from api import score
 from api import update_score
+from api import update_grade
