@@ -1,33 +1,35 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from ast import literal_eval
 from dbConfig import *
+import json
 
 
-@app.route('/login', methods=['POST'])
-def login():
+@app.route('/schedule_student', methods=['POST'])
+def schedule_student():
     try:
         data = request.json
-        username = data["username"]
-        password = data["password"]
+        room = data["room"]
+        result = []
 
-        # connect db
+        # # connect db
         conn = connectToDB()
         cursor = conn.cursor()
 
-        sql = """ SELECT account.id,account.role_id,profile.id AS std_id FROM account INNER JOIN profile ON account.id = profile.account_id WHERE username = %s AND password = %s """
+        sql = " SELECT * FROM schedule_student WHERE room = '" + str(room) +"'"
         print(sql)
-        cursor.execute(sql,(username,password))
+        cursor.execute(sql)
         data_sql = cursor.fetchall()
         columns = [column[0] for column in cursor.description]
         result = toJson(data_sql,columns)
         if len(result) > 0:
+            result[0]['schedule'] =  literal_eval(result[0]['schedule'])
             result = {"status":"OK","result":result}
         else:
-            result = {"status":"ER","errorMessage":"Username or Password in correct"}
+            result = {"status":"ER","errorMessage":"ไม่พบ ข้อมูล"}
     except Exception as e:
         print(e)
         result = {"status":"ER","errorCode":"ER999","errorMessage":str(e)}
     finally:
-        conn.close()
+        # conn.close()
         return result
-

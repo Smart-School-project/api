@@ -6,11 +6,11 @@ from api import *
 
 import mysql.connector
 mydb = mysql.connector.connect(
-host='localhost',
-database='Project',
-user='root',
-password='root',
-port=8899
+host='sql6.freesqldatabase.com',
+database='sql6475527',
+user='sql6475527',
+password='BrdmWhME71',
+port=3306
 )
 
 #print(mydb)

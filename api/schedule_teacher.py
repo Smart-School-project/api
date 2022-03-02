@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from ast import literal_eval
 from dbConfig import *
 import json
 
@@ -20,10 +21,7 @@ def schedule_teacher():
         columns = [column[0] for column in cursor.description]
         result = toJson(data_sql,columns)
         if len(result) > 0:
-            data = result[0]['schedule']
-            json_data = json.dumps(data)
-            json_string = json.loads(json_data) 
-            result[0]['schedule'] = json_string
+            result[0]['schedule'] =  literal_eval(result[0]['schedule'])
             result = {"status":"OK","result":result}
         else:
             result = {"status":"ER","errorMessage":"ไม่พบ ข้อมูล"}
